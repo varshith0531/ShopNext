@@ -1,65 +1,66 @@
-import Image from "next/image";
+import React from 'react'
+import fs from 'fs'
+import path from 'path'
+// Product cards are rendered inside the client component
+import ClientProductList from './components/ClientProductList'
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+type Product = {
+  id: string
+  name: string
+  slug: string
+  description: string
+  price: number
+  category: string
+  inventory: number
+  lastUpdated: string
 }
+
+async function getProducts(): Promise<Product[]> {
+  const file = path.join(process.cwd(), 'src', 'data', 'products.json')
+  const raw = fs.readFileSync(file, 'utf-8')
+  return JSON.parse(raw)
+}
+
+// This page is a server component and will be rendered at build time.
+// It will remain static until redeployed (SSG).
+export default async function Home() {
+  const products = await getProducts()
+
+  // We will render a client-side search box below — so use a simple component wrapper
+  return (
+    <div className="space-y-8">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Welcome to ShopNext
+          </h1>
+          <p className="text-xl text-blue-100 mb-6">
+            Discover amazing products at great prices. Shop with confidence and enjoy fast delivery.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="btn bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold">
+              Shop Now
+            </button>
+            <button className="btn border-2 border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-lg font-semibold">
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Products Section */}
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-3xl font-bold text-gray-900">Our Products</h2>
+          <div className="text-sm text-gray-500">
+            {products.length} products available
+          </div>
+        </div>
+        <ClientProductList initialProducts={products} />
+      </div>
+    </div>
+  )
+}
+
+// Client component moved to ./components/ClientProductList

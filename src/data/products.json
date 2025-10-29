@@ -1,0 +1,33 @@
+[
+    {
+      "id": "1",
+      "name": "Classic T-Shirt",
+      "slug": "classic-t-shirt",
+      "description": "Soft cotton classic t-shirt.",
+      "price": 499,
+      "category": "Clothing",
+      "inventory": 25,
+      "lastUpdated": "2025-10-28T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Running Shoes",
+      "slug": "running-shoes",
+      "description": "Comfortable running shoes for everyday jogs.",
+      "price": 2999,
+      "category": "Footwear",
+      "inventory": 8,
+      "lastUpdated": "2025-10-28T10:10:00.000Z"
+    },
+    {
+      "id": "3",
+      "name": "Coffee Mug",
+      "slug": "coffee-mug",
+      "description": "Ceramic mug with a matte finish.",
+      "price": 249,
+      "category": "Home",
+      "inventory": 100,
+      "lastUpdated": "2025-10-28T11:00:00.000Z"
+    }
+  ]
+  
