@@ -31,10 +31,10 @@ e-commerce/
 │   │   ├── admin/             # Admin dashboard
 │   │   │   └── page.tsx       # Admin product management
 │   │   ├── api/               # API routes
-│   │   │   ├── products/      # Products API endpoints
-│   │   │   │   └── route.ts   # GET/POST products
-│   │   │   └── products-id/   # Individual product API
-│   │   │       └── route.ts   # GET/PUT/DELETE by ID
+│   │   │   └── products/      # Products API endpoints
+│   │   │       ├── route.ts   # GET/POST products
+│   │   │       └── [id]/      # Individual product API
+│   │   │           └── route.ts # GET/PUT/DELETE by ID
 │   │   ├── components/        # Reusable components
 │   │   │   ├── ClientProductList.tsx  # Client-side product list
 │   │   │   ├── ProductCard.tsx        # Product card component
@@ -99,9 +99,9 @@ e-commerce/
 - **API Routes**:
   - `GET /api/products` - Fetch all products
   - `POST /api/products` - Create new product (admin only)
-  - `GET /api/products-id/[id]` - Fetch single product
-  - `PUT /api/products-id/[id]` - Update product (admin only)
-  - `DELETE /api/products-id/[id]` - Delete product (admin only)
+  - `GET /api/products/[id]` - Fetch single product
+  - `PUT /api/products/[id]` - Update product (admin only)
+  - `DELETE /api/products/[id]` - Delete product (admin only)
 
 ## 🔧 Development
 
@@ -185,6 +185,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Icons from [Heroicons](https://heroicons.com/)
 - Font optimization with [next/font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
 
+
+---
+**Name**-Varshith Yadavalli
+**Date**-29-10-2025
 ---
 
 **ShopNext** - Modern E-commerce Made Simple 🛍️

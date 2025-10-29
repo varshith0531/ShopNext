@@ -17,14 +17,15 @@ type Product = {
 export const revalidate = 60 // ISR: re-generate at most every 60 seconds
 
 async function getProductBySlug(slug: string): Promise<Product | null> {
-  const file = path.join(process.cwd(), 'data', 'products.json')
+  const file = path.join(process.cwd(), 'src', 'data', 'products.json')
   const raw = fs.readFileSync(file, 'utf-8')
   const products: Product[] = JSON.parse(raw)
   return products.find((p) => p.slug === slug) ?? null
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const product = await getProductBySlug(params.slug)
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const product = await getProductBySlug(slug)
   if (!product) {
     return <div><h2>Product not found</h2><Link href="/">Back</Link></div>
   }
